@@ -16,6 +16,7 @@
 \begin{document}
 <<echo=F, message=F, warning=F>>=
 library(tidyverse)
+library(pwr)
 @
 
 \cite{Kasdin25} show that dopamine in the brains of young zebra finches acts as 
@@ -40,7 +41,12 @@ of singing, averaged across development.
 conduct a power analysis. How many observations would the researchers 
 need to detect a moderate-to-large effect ($d=0.65$) when using 
 $\alpha=0.05$ and default power (0.80) for a two-sided one sample 
-$t$ test.
+$t$ test. \\
+<<>>=
+(pwr.analysis <- pwr.t.test(d=0.65, sig.level = 0.05, power = 0.80, type = "one.sample", 
+           alternative = "two.sided"))
+@
+\textbf{Solution:} Using the \verb|pwr.t.test()| function from the \texttt{pwr} package, the number of observations the researchers would need is $n = \Sexpr{round(pwr.analysis$n, 2)}$. In this study, the researchers used $n=25$ observation, over the number of observations necessary.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % COLLECT DATA
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -88,7 +88,26 @@ of singing, averaged across development.
 conduct a power analysis. How many observations would the researchers 
 need to detect a moderate-to-large effect ($d=0.65$) when using 
 $\alpha=0.05$ and default power (0.80) for a two-sided one sample 
-$t$ test.
+$t$ test. \\
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hldef{(pwr.analysis} \hlkwb{<-} \hlkwd{pwr.t.test}\hldef{(}\hlkwc{d}\hldef{=}\hlnum{0.65}\hldef{,} \hlkwc{sig.level} \hldef{=} \hlnum{0.05}\hldef{,} \hlkwc{power} \hldef{=} \hlnum{0.80}\hldef{,} \hlkwc{type} \hldef{=} \hlsng{"one.sample"}\hldef{,}
+           \hlkwc{alternative} \hldef{=} \hlsng{"two.sided"}\hldef{))}
+\end{alltt}
+\begin{verbatim}
+## 
+##      One-sample t test power calculation 
+## 
+##               n = 20.58039
+##               d = 0.65
+##       sig.level = 0.05
+##           power = 0.8
+##     alternative = two.sided
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+\textbf{Solution:} Using the \verb|pwr.t.test()| function from the \texttt{pwr} package, the number of observations the researchers would need is $n = 20.58$. In this study, the researchers used $n=25$ observation, over the number of observations necessary.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % COLLECT DATA
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
