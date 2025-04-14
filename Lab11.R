@@ -1,11 +1,13 @@
 # Henry Sun 
 # Lab 11
+library(tidyverse)
 ################################################################################
 # Task 1
 library(pwr)
-suicide <- pwr.t.test(d=0.65, sig.level = 0.05, power = 0.80, type = "one.sample", 
+alpha <- 0.05
+pwr.analysis <- pwr.t.test(d=0.65, sig.level = alpha, power = 0.80, type = "one.sample", 
            alternative = "two.sided")
-num.obs <- suicide$n
+num.obs <- pwr.analysis$n
 
 ################################################################################
 # Task 2
@@ -16,14 +18,19 @@ num.obs <- suicide$n
 # download and open excel file
 # save desired data as a .csv file
 # load in
-closer.vals <- read_csv("closer_vals.csv")
-farther.vals <- read_csv("farther_vals.csv")
+library(xtable)
+
+# closer vals
+closer.data <- read_csv("closer_vals.csv")
+# farther vals
+farther.data <- read_csv("farther_vals.csv")
 
 # consolidate all data
-figG.data <- tibble(closer.vals = closer.vals$closer_vals,
-                    farther.vals = farther.vals$farther_vals) |>
-  mutate(val.diffs = closer.vals - farther.vals)
-
+figG.data <- tibble(closer_vals = closer.data$closer_vals,
+                    farther_vals = farther.data$farther_vals) |>
+  mutate(val_diffs = closer_vals - farther_vals)
+# create table for sweave
+xtable(figG.data)
 ################################################################################
 # Task 3
 # Summarize data
@@ -69,7 +76,7 @@ hedges_g(x = x, mu = mu0, alternative = "greater")
 interpret_hedges_g(1.61)
 
 # p value 
-(p.val <- pt(q=t.stat, df = n-1))
+#(p.val <- pt(q=t.stat, df = n-1))
 
 # t.test
 t.test(x=x, mu = mu0, alternative = "greater")

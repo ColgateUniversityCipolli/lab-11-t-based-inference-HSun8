@@ -43,10 +43,11 @@ need to detect a moderate-to-large effect ($d=0.65$) when using
 $\alpha=0.05$ and default power (0.80) for a two-sided one sample 
 $t$ test. \\
 <<>>=
-(pwr.analysis <- pwr.t.test(d=0.65, sig.level = 0.05, power = 0.80, type = "one.sample", 
-           alternative = "two.sided"))
+alpha <- 0.05
+(pwr.analysis <- pwr.t.test(d=0.65, sig.level = alpha, power = 0.80, 
+                            type = "one.sample", alternative = "two.sided"))
 @
-\textbf{Solution:} Using the \verb|pwr.t.test()| function from the \texttt{pwr} package, the number of observations the researchers would need is $n = \Sexpr{round(pwr.analysis$n, 2)}$. In this study, the researchers used $n=25$ observation, over the number of observations necessary.
+\textbf{Solution:} Using the \verb|pwr.t.test()| function from the \texttt{pwr} package, the number of observations the researchers would need is $n = \Sexpr{round(pwr.analysis$n, 2)}$. In this study, the researchers used $n=25$ observation, well over the number of observations necessary.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % COLLECT DATA
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -56,6 +57,57 @@ do to collect the data for Figure 2(g). Note that you only need the
 \texttt{closer\_vals} and \texttt{further\_vals}. Ensure to 
 \texttt{mutate()} the data to get a difference 
 (e.g., \texttt{closer\_vals - further\_vals}).
+<<eval = F>>=
+# closer vals
+closer.data <- read_csv("closer_vals.csv")
+# farther vals
+farther.data <- read_csv("farther_vals.csv")
+
+# consolidate all data
+figG.data <- tibble(closer_vals = closer.data$closer_vals,
+                    farther_vals = farther.data$farther_vals) |>
+  mutate(val_diffs = closer_vals - farther_vals)
+# create table for sweave
+xtable(figG.data)
+@
+\textbf{Solution:} The code snippet above shows the code used for creating the table and generating the table \citep{table1} shown on the next page, using \texttt{xtable} \citep{xtable}.
+\begin{table}[ht]
+\centering
+\begin{tabular}{rrrr}
+  \hline
+ & closer\_vals & farther\_vals & val\_diffs \\ 
+  \hline
+1 & 0.28 & -0.19 & 0.47 \\ 
+  2 & 0.08 & -0.03 & 0.11 \\ 
+  3 & 0.13 & -0.19 & 0.32 \\ 
+  4 & 0.04 & -0.07 & 0.11 \\ 
+  5 & 0.15 & -0.09 & 0.23 \\ 
+  6 & 0.20 & -0.16 & 0.36 \\ 
+  7 & 0.16 & -0.31 & 0.47 \\ 
+  8 & 0.18 & -0.16 & 0.34 \\ 
+  9 & 0.13 & -0.13 & 0.26 \\ 
+  10 & 0.10 & -0.05 & 0.15 \\ 
+  11 & 0.33 & -0.60 & 0.93 \\ 
+  12 & 0.17 & -0.24 & 0.41 \\ 
+  13 & 0.07 & -0.12 & 0.20 \\ 
+  14 & 0.00 & -0.13 & 0.13 \\ 
+  15 & 0.00 & -0.04 & 0.04 \\ 
+  16 & 0.09 & -0.24 & 0.33 \\ 
+  17 & 0.26 & -0.34 & 0.61 \\ 
+  18 & 0.28 & -0.31 & 0.59 \\ 
+  19 & 0.07 & -0.18 & 0.25 \\ 
+  20 & 0.15 & -0.07 & 0.23 \\ 
+  21 & 0.27 & -0.34 & 0.61 \\ 
+  22 & 0.15 & -0.19 & 0.34 \\ 
+  23 & 0.10 & -0.20 & 0.30 \\ 
+  24 & 0.19 & -0.31 & 0.50 \\ 
+  25 & 0.34 & -0.35 & 0.69 \\ 
+   \hline
+\end{tabular}
+\caption{Table showing values for \texttt{closer\_vals}, \texttt{farther\_vals}, and their corresponding differences (\texttt{val\_diffs}).}
+\label{table1}
+\end{table}
+\newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % SUMMARIZE DATA
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
