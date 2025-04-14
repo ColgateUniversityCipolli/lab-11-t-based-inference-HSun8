@@ -17,6 +17,8 @@
 <<echo=F, message=F, warning=F>>=
 library(tidyverse)
 library(pwr)
+library(xtable)
+library(e1071)
 @
 
 \cite{Kasdin25} show that dopamine in the brains of young zebra finches acts as 
@@ -57,27 +59,27 @@ do to collect the data for Figure 2(g). Note that you only need the
 \texttt{closer\_vals} and \texttt{further\_vals}. Ensure to 
 \texttt{mutate()} the data to get a difference 
 (e.g., \texttt{closer\_vals - further\_vals}).
-<<eval = F>>=
+<<message=FALSE, warning=FALSE, results = 'hide'>>=
 # closer vals
 closer.data <- read_csv("closer_vals.csv")
-# farther vals
-farther.data <- read_csv("farther_vals.csv")
+# further vals
+further.data <- read_csv("further_vals.csv")
 
 # consolidate all data
 figG.data <- tibble(closer_vals = closer.data$closer_vals,
-                    farther_vals = farther.data$farther_vals) |>
-  mutate(val_diffs = closer_vals - farther_vals)
+                    further_vals = further.data$further_vals) |>
+  mutate(val_diffs = closer_vals - further_vals)
 # create table for sweave
 xtable(figG.data)
 @
-\textbf{Solution:} The code snippet above shows the code used for creating the table and generating the table \citep{table1} shown on the next page, using \texttt{xtable} \citep{xtable}.
+\textbf{Solution:} The code snippet above shows the code used for creating the table and generating the table (Table \ref{table1}) shown on the next page, using \texttt{xtable} \citep{xtable}.
 \begin{table}[ht]
 \centering
 \begin{tabular}{rrrr}
   \hline
- & closer\_vals & farther\_vals & val\_diffs \\ 
+ observation & closer\_vals & further\_vals & val\_diffs \\ 
   \hline
-1 & 0.28 & -0.19 & 0.47 \\ 
+  1 & 0.28 & -0.19 & 0.47 \\ 
   2 & 0.08 & -0.03 & 0.11 \\ 
   3 & 0.13 & -0.19 & 0.32 \\ 
   4 & 0.04 & -0.07 & 0.11 \\ 
@@ -104,7 +106,7 @@ xtable(figG.data)
   25 & 0.34 & -0.35 & 0.69 \\ 
    \hline
 \end{tabular}
-\caption{Table showing values for \texttt{closer\_vals}, \texttt{farther\_vals}, and their corresponding differences (\texttt{val\_diffs}).}
+\caption{Table showing values for \texttt{closer\_vals}, \texttt{further\_vals}, and their corresponding differences (\texttt{val\_diffs}).}
 \label{table1}
 \end{table}
 \newpage
@@ -116,13 +118,79 @@ xtable(figG.data)
   \item Summarize the further data. Do the data suggest that
    dopamine in the brains of young zebra finches decreases when
    they sing further away?
+   <<results='hide', message=FALSE, warning=FALSE>>=
+# part A
+further.summary <- summarize(figG.data,
+                            mean = mean(further_vals),
+                            variance = var(further_vals),
+                            median = median(further_vals),
+                            IQR = IQR(further_vals),
+                            skewness = skewness(further_vals),
+                            e.kurtosis = kurtosis(further_vals))
+xtable(further.summary)
+@
+\textbf{Solution:} Above is a code snippet used to generate a table of summary statistics (Table \ref{table2}) for the further data. Since the mean and median are both negative, this suggests that dopamine is decreasing for further values.
+\begin{table}[ht]
+\centering
+\begin{tabular}{rrrrrrr}
+  \hline
+ mean & variance & median & IQR & skewness & e.kurtosis \\ 
+  \hline
+-0.20 & 0.02 & -0.19 & 0.19 & -1.04 & 1.19 \\ 
+   \hline
+\end{tabular}
+\caption{Summary Statistics for further data.}
+\label{table2}
+\end{table}
    \item Summarize the closer data. Do the data suggest that
    dopamine in the brains of young zebra finches increases when
    they sing closer to their adult song?
+  <<results='hide', message=FALSE, warning=FALSE>>=
+   # part B
+   closer.summary <- summarize(figG.data,
+                            mean = mean(closer_vals),
+                            variance = var(closer_vals),
+                            median = median(closer_vals),
+                            IQR = IQR(closer_vals),
+                            skewness = skewness(closer_vals),
+                            e.kurtosis = kurtosis(closer_vals))
+   xtable(closer.summary)
+   @
+  \textbf{Solution:} Above is a code snippet used to generate a table of summary statistics (Table \ref{table3}) for the closer data. Since the mean and median are both positive, this suggests that dopamine is increasing for closer values. 
+\begin{table}[ht]
+\centering
+\begin{tabular}{rrrrrrr}
+  \hline
+ mean & variance & median & IQR & skewness & e.kurtosis \\ 
+  \hline
+ 0.16 & 0.01 & 0.15 & 0.11 & 0.30 & -0.86 \\ 
+   \hline
+\end{tabular}
+\caption{Summary Statistics for closer data.}
+\label{table3}
+\end{table}
   \item Summarize the paired differences. Do the data suggest
   that there is a difference between dopamine in the brains of
   young zebra finches when they sing further away compared to 
   closer to their adult song?
+  <<results = 'hide', warning = F, echo =F>>= 
+  # part C
+diffs.summary <- closer.summary - further.summary
+xtable(diffs.summary)
+@
+\textbf{Solution:} Above is a code snippet used to generate a table of summary statistics (Table \ref{table4}) for the paired differences. Since the mean and median are both positive, this suggests that dopamine is changing in paired differences.
+\begin{table}[ht]
+\centering
+\begin{tabular}{rrrrrrr}
+  \hline
+  mean & variance & median & IQR & skewness & e.kurtosis \\ 
+  \hline
+  0.36 & -0.01 & 0.33 & -0.08 & 1.33 & -2.05 \\ 
+   \hline
+\end{tabular}
+\caption{Summary Statistics for paired differences.}
+\label{table4}
+\end{table}
   \item \textbf{Optional Challenge:} Can you reproduce Figure 2(g)?
   Note that the you can use \texttt{geom\_errorbar()} to plot
   the range created by adding the mean $\pm$ one standard deviation.

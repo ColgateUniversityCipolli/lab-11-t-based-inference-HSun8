@@ -39,26 +39,31 @@ library(e1071)
 closer.summary <- summarize(figG.data,
                             mean = mean(closer.vals),
                             variance = var(closer.vals),
+                            median = median(closer.vals),
+                            IQR = IQR(closer.vals),
                             skewness = skewness(closer.vals),
                             e.kurtosis = kurtosis(closer.vals))
-# good enough for now
-ggplot(figG.data)+
-  geom_boxplot(aes(x="Closer", y=closer.vals))+
-  geom_boxplot(aes(x="Farther", y=farther.vals))+
-  geom_boxplot(aes(x="Difference", y=val.diffs))+
-  ylab("delta F/F (%)")
-  
+xtable(closer.summary)
 
 # part B
 farther.summary <- summarize(figG.data,
                             mean = mean(farther.vals),
                             variance = var(farther.vals),
+                            median = median(farther.vals),
+                            IQR = IQR(farther.vals),
                             skewness = skewness(farther.vals),
                             e.kurtosis = kurtosis(farther.vals))
+xtable(farther.summary)
 # part C
 diffs.summary <- closer.summary - farther.summary
+xtable(diffs.summary)
 
-# part D 
+# plot
+ggplot(figG.data)+
+  geom_boxplot(aes(x="Closer", y=closer.vals))+
+  geom_boxplot(aes(x="Farther", y=farther.vals))+
+  geom_boxplot(aes(x="Difference", y=val.diffs))+
+  ylab("delta F/F (%)")
 
 ################################################################################
 # Task 4

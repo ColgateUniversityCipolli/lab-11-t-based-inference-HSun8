@@ -123,26 +123,26 @@ do to collect the data for Figure 2(g). Note that you only need the
 \begin{alltt}
 \hlcom{# closer vals}
 \hldef{closer.data} \hlkwb{<-} \hlkwd{read_csv}\hldef{(}\hlsng{"closer_vals.csv"}\hldef{)}
-\hlcom{# farther vals}
-\hldef{farther.data} \hlkwb{<-} \hlkwd{read_csv}\hldef{(}\hlsng{"farther_vals.csv"}\hldef{)}
+\hlcom{# further vals}
+\hldef{further.data} \hlkwb{<-} \hlkwd{read_csv}\hldef{(}\hlsng{"further_vals.csv"}\hldef{)}
 
 \hlcom{# consolidate all data}
 \hldef{figG.data} \hlkwb{<-} \hlkwd{tibble}\hldef{(}\hlkwc{closer_vals} \hldef{= closer.data}\hlopt{$}\hldef{closer_vals,}
-                    \hlkwc{farther_vals} \hldef{= farther.data}\hlopt{$}\hldef{farther_vals) |>}
-  \hlkwd{mutate}\hldef{(}\hlkwc{val_diffs} \hldef{= closer_vals} \hlopt{-} \hldef{farther_vals)}
+                    \hlkwc{further_vals} \hldef{= further.data}\hlopt{$}\hldef{further_vals) |>}
+  \hlkwd{mutate}\hldef{(}\hlkwc{val_diffs} \hldef{= closer_vals} \hlopt{-} \hldef{further_vals)}
 \hlcom{# create table for sweave}
 \hlkwd{xtable}\hldef{(figG.data)}
 \end{alltt}
 \end{kframe}
 \end{knitrout}
-\textbf{Solution:} The code snippet above shows the code used for creating the table and generating the table \citep{table1} shown on the next page, using \texttt{xtable} \citep{xtable}.
+\textbf{Solution:} The code snippet above shows the code used for creating the table and generating the table (Table \ref{table1}) shown on the next page, using \texttt{xtable} \citep{xtable}.
 \begin{table}[ht]
 \centering
 \begin{tabular}{rrrr}
   \hline
- & closer\_vals & farther\_vals & val\_diffs \\ 
+ observation & closer\_vals & further\_vals & val\_diffs \\ 
   \hline
-1 & 0.28 & -0.19 & 0.47 \\ 
+  1 & 0.28 & -0.19 & 0.47 \\ 
   2 & 0.08 & -0.03 & 0.11 \\ 
   3 & 0.13 & -0.19 & 0.32 \\ 
   4 & 0.04 & -0.07 & 0.11 \\ 
@@ -169,7 +169,7 @@ do to collect the data for Figure 2(g). Note that you only need the
   25 & 0.34 & -0.35 & 0.69 \\ 
    \hline
 \end{tabular}
-\caption{Table showing values for \texttt{closer\_vals}, \texttt{farther\_vals}, and their corresponding differences (\texttt{val\_diffs}).}
+\caption{Table showing values for \texttt{closer\_vals}, \texttt{further\_vals}, and their corresponding differences (\texttt{val\_diffs}).}
 \label{table1}
 \end{table}
 \newpage
@@ -181,13 +181,83 @@ do to collect the data for Figure 2(g). Note that you only need the
   \item Summarize the further data. Do the data suggest that
    dopamine in the brains of young zebra finches decreases when
    they sing further away?
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{# part A}
+\hldef{further.summary} \hlkwb{<-} \hlkwd{summarize}\hldef{(figG.data,}
+                         \hlkwc{mean} \hldef{=} \hlkwd{mean}\hldef{(further_vals),}
+                         \hlkwc{variance} \hldef{=} \hlkwd{var}\hldef{(further_vals),}
+                         \hlkwc{median} \hldef{=} \hlkwd{median}\hldef{(further_vals),}
+                         \hlkwc{IQR} \hldef{=} \hlkwd{IQR}\hldef{(further_vals),}
+                         \hlkwc{skewness} \hldef{=} \hlkwd{skewness}\hldef{(further_vals),}
+                         \hlkwc{e.kurtosis} \hldef{=} \hlkwd{kurtosis}\hldef{(further_vals))}
+\hlkwd{xtable}\hldef{(further.summary)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+\textbf{Solution:} Above is a code snippet used to generate a table of summary statistics (Table \ref{table2}) for the further data. Since the mean and median are both negative, this suggests that dopamine is decreasing for further values.
+\begin{table}[ht]
+\centering
+\begin{tabular}{rrrrrrr}
+  \hline
+ mean & variance & median & IQR & skewness & e.kurtosis \\ 
+  \hline
+-0.20 & 0.02 & -0.19 & 0.19 & -1.04 & 1.19 \\ 
+   \hline
+\end{tabular}
+\caption{Summary Statistics for further data.}
+\label{table2}
+\end{table}
    \item Summarize the closer data. Do the data suggest that
    dopamine in the brains of young zebra finches increases when
    they sing closer to their adult song?
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+ \hlcom{# part B}
+ \hldef{closer.summary} \hlkwb{<-} \hlkwd{summarize}\hldef{(figG.data,}
+                          \hlkwc{mean} \hldef{=} \hlkwd{mean}\hldef{(closer_vals),}
+                          \hlkwc{variance} \hldef{=} \hlkwd{var}\hldef{(closer_vals),}
+                          \hlkwc{median} \hldef{=} \hlkwd{median}\hldef{(closer_vals),}
+                          \hlkwc{IQR} \hldef{=} \hlkwd{IQR}\hldef{(closer_vals),}
+                          \hlkwc{skewness} \hldef{=} \hlkwd{skewness}\hldef{(closer_vals),}
+                          \hlkwc{e.kurtosis} \hldef{=} \hlkwd{kurtosis}\hldef{(closer_vals))}
+ \hlkwd{xtable}\hldef{(closer.summary)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+  \textbf{Solution:} Above is a code snippet used to generate a table of summary statistics (Table \ref{table3}) for the closer data. Since the mean and median are both positive, this suggests that dopamine is increasing for closer values. 
+\begin{table}[ht]
+\centering
+\begin{tabular}{rrrrrrr}
+  \hline
+ mean & variance & median & IQR & skewness & e.kurtosis \\ 
+  \hline
+ 0.16 & 0.01 & 0.15 & 0.11 & 0.30 & -0.86 \\ 
+   \hline
+\end{tabular}
+\caption{Summary Statistics for closer data.}
+\label{table3}
+\end{table}
   \item Summarize the paired differences. Do the data suggest
   that there is a difference between dopamine in the brains of
   young zebra finches when they sing further away compared to 
   closer to their adult song?
+
+\textbf{Solution:} Above is a code snippet used to generate a table of summary statistics (Table \ref{table4}) for the paired differences. Since the mean and median are both positive, this suggests that dopamine is changing in paired differences.
+\begin{table}[ht]
+\centering
+\begin{tabular}{rrrrrrr}
+  \hline
+  mean & variance & median & IQR & skewness & e.kurtosis \\ 
+  \hline
+  0.36 & -0.01 & 0.33 & -0.08 & 1.33 & -2.05 \\ 
+   \hline
+\end{tabular}
+\caption{Summary Statistics for paired differences.}
+\label{table4}
+\end{table}
   \item \textbf{Optional Challenge:} Can you reproduce Figure 2(g)?
   Note that the you can use \texttt{geom\_errorbar()} to plot
   the range created by adding the mean $\pm$ one standard deviation.
