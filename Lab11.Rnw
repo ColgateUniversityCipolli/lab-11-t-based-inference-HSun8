@@ -19,6 +19,7 @@ library(tidyverse)
 library(pwr)
 library(xtable)
 library(e1071)
+library(effectsize)
 @
 
 \cite{Kasdin25} show that dopamine in the brains of young zebra finches acts as 
@@ -129,7 +130,7 @@ further.summary <- summarize(figG.data,
                             e.kurtosis = kurtosis(further_vals))
 xtable(further.summary)
 @
-\textbf{Solution:} Above is a code snippet used to generate a table of summary statistics (Table \ref{table2}) for the further data. Since the mean and median are both negative, this suggests that dopamine is decreasing for further values.
+\textbf{Solution:} Above is a code snippet used to generate a table of summary statistics (Table \ref{table2}) for the further data. Since the mean and median are both negative, this suggests that dopamine is decreasing for further values. Some functions used to calculate summary statistics came from the \texttt{e1071} \citep{e1071} package.
 \begin{table}[ht]
 \centering
 \begin{tabular}{rrrrrrr}
@@ -205,8 +206,60 @@ like: ($t=23.99$, $p<0.0001$; $g=1.34$; 95\% CI: 4.43, 4.60).\\
 correction of their $p$-values. I'm waiting to hear back from them via email!
 \begin{enumerate}
   \item ``The close responses differed significantly from 0 ($p=1.63 \times 10^{-8}$).''
+  <<>>=
+# part A (closer)
+mu0 <- 0
+x <- figG.data$closer_vals
+
+# hedge's g + CI
+hedges_g(x = x, mu = mu0, alternative = "greater")
+interpret_hedges_g(1.61)
+
+# t.test
+t.test(x=x, mu = mu0, alternative = "greater")
+
+@
+\textbf{Solution:} Since we expect dopamine levels to increase when the responses are closer, we want to use a right-tailed test. This givens us the results: 
+\begin{center}
+($t = 8.30$; $p = 8.13 * 10^{-9}$; $g = 1.61$; $95\%$ CI: 0.124, Inf)
+\end{center}
+The functions used to accomplish these tasks (\verb|hedges_g(), t.test()|), came from the \texttt{effectsize} \citep{effectsize} package. 
+
   \item ``The far responses differed significantly from 0 ($p=5.17 \times 10^{-8}$).''
+  <<>>=
+# part B (further)
+mu0 <- 0
+x <- figG.data$further_vals
+
+# hedge's g + CI
+hedges_g(x = x, mu = mu0, alternative = "less")
+interpret_hedges_g(-1.51)
+
+# t.test
+t.test(x=x, mu = mu0, alternative = "less")
+@
+\textbf{Solution:} Since we expect dopamine levels to decrease when the responses are further, we want to use a left-tailed test. This givens us the results: 
+\begin{center}
+($t = -7.78$; $p = 2.59 * 10^{-8}$; $g = -1.51$; $95\%$ CI: -Inf, -0.158)
+\end{center}
   \item ``The difference between populations was significant ($p=1.04 \times10^{-8}$).''
+  <<>>=
+# part C (differences)
+mu0 <- 0
+x <- figG.data$val_diffs
+
+# hedge's g + CI
+hedges_g(x = x, mu = mu0, alternative = "two.sided")
+interpret_hedges_g(1.65)
+
+# t.test
+t.test(x=x, mu = mu0, alternative = "two.sided")
+@
+\textbf{Solution:} Since we expect the difference to be significant between populations, we want to use a two-tailed test. This givens us the results: 
+\begin{center}
+($t = 8.51$; $p = 1.04 * 10^{-8}$; $g = 1.65$; $95\%$ CI: 0.272, 0.446)
+\end{center}
+
 \end{enumerate}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % CONDUCT THE TESTS

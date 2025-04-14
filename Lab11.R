@@ -70,8 +70,6 @@ ggplot(figG.data)+
 
 library(effectsize)
 # part A (closer)
-# closer
-# mu0 is 0, from phrasing of question
 mu0 <- 0
 x <- figG.data$closer_vals
 
@@ -84,7 +82,6 @@ t.test(x=x, mu = mu0, alternative = "greater")
 
 
 # part B (further)
-# t statistic
 mu0 <- 0
 x <- figG.data$further_vals
 
@@ -95,8 +92,7 @@ interpret_hedges_g(-1.51)
 # t.test
 t.test(x=x, mu = mu0, alternative = "less")
 
-# differences
-# t statistic
+# part C (differences)
 mu0 <- 0
 x <- figG.data$val_diffs
 

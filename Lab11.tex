@@ -196,7 +196,7 @@ do to collect the data for Figure 2(g). Note that you only need the
 \end{alltt}
 \end{kframe}
 \end{knitrout}
-\textbf{Solution:} Above is a code snippet used to generate a table of summary statistics (Table \ref{table2}) for the further data. Since the mean and median are both negative, this suggests that dopamine is decreasing for further values.
+\textbf{Solution:} Above is a code snippet used to generate a table of summary statistics (Table \ref{table2}) for the further data. Since the mean and median are both negative, this suggests that dopamine is decreasing for further values. Some functions used to calculate summary statistics came from the \texttt{e1071} \citep{e1071} package.
 \begin{table}[ht]
 \centering
 \begin{tabular}{rrrrrrr}
@@ -272,8 +272,150 @@ like: ($t=23.99$, $p<0.0001$; $g=1.34$; 95\% CI: 4.43, 4.60).\\
 correction of their $p$-values. I'm waiting to hear back from them via email!
 \begin{enumerate}
   \item ``The close responses differed significantly from 0 ($p=1.63 \times 10^{-8}$).''
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{# part A (closer)}
+\hldef{mu0} \hlkwb{<-} \hlnum{0}
+\hldef{x} \hlkwb{<-} \hldef{figG.data}\hlopt{$}\hldef{closer_vals}
+
+\hlcom{# hedge's g + CI}
+\hlkwd{hedges_g}\hldef{(}\hlkwc{x} \hldef{= x,} \hlkwc{mu} \hldef{= mu0,} \hlkwc{alternative} \hldef{=} \hlsng{"greater"}\hldef{)}
+\end{alltt}
+\begin{verbatim}
+## Hedges' g |      95% CI
+## -----------------------
+## 1.61      | [1.10, Inf]
+## 
+## - One-sided CIs: upper bound fixed at [Inf].
+\end{verbatim}
+\begin{alltt}
+\hlkwd{interpret_hedges_g}\hldef{(}\hlnum{1.61}\hldef{)}
+\end{alltt}
+\begin{verbatim}
+## [1] "large"
+## (Rules: cohen1988)
+\end{verbatim}
+\begin{alltt}
+\hlcom{# t.test}
+\hlkwd{t.test}\hldef{(}\hlkwc{x}\hldef{=x,} \hlkwc{mu} \hldef{= mu0,} \hlkwc{alternative} \hldef{=} \hlsng{"greater"}\hldef{)}
+\end{alltt}
+\begin{verbatim}
+## 
+## 	One Sample t-test
+## 
+## data:  x
+## t = 8.3024, df = 24, p-value = 8.132e-09
+## alternative hypothesis: true mean is greater than 0
+## 95 percent confidence interval:
+##  0.1240301       Inf
+## sample estimates:
+## mean of x 
+## 0.1562231
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+\textbf{Solution:} Since we expect dopamine levels to increase when the responses are closer, we want to use a right-tailed test. This givens us the results: 
+\begin{center}
+($t = 8.30$; $p = 8.13 * 10^{-9}$; $g = 1.61$; $95\%$ CI: 0.124, Inf)
+\end{center}
+The functions used to accomplish these tasks (\verb|hedges_g(), t.test()|), came from the \texttt{effectsize} \citep{effectsize} package. 
+
   \item ``The far responses differed significantly from 0 ($p=5.17 \times 10^{-8}$).''
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{# part B (further)}
+\hldef{mu0} \hlkwb{<-} \hlnum{0}
+\hldef{x} \hlkwb{<-} \hldef{figG.data}\hlopt{$}\hldef{further_vals}
+
+\hlcom{# hedge's g + CI}
+\hlkwd{hedges_g}\hldef{(}\hlkwc{x} \hldef{= x,} \hlkwc{mu} \hldef{= mu0,} \hlkwc{alternative} \hldef{=} \hlsng{"less"}\hldef{)}
+\end{alltt}
+\begin{verbatim}
+## Hedges' g |        95% CI
+## -------------------------
+## -1.51     | [-Inf, -1.02]
+## 
+## - One-sided CIs: lower bound fixed at [-Inf].
+\end{verbatim}
+\begin{alltt}
+\hlkwd{interpret_hedges_g}\hldef{(}\hlopt{-}\hlnum{1.51}\hldef{)}
+\end{alltt}
+\begin{verbatim}
+## [1] "large"
+## (Rules: cohen1988)
+\end{verbatim}
+\begin{alltt}
+\hlcom{# t.test}
+\hlkwd{t.test}\hldef{(}\hlkwc{x}\hldef{=x,} \hlkwc{mu} \hldef{= mu0,} \hlkwc{alternative} \hldef{=} \hlsng{"less"}\hldef{)}
+\end{alltt}
+\begin{verbatim}
+## 
+## 	One Sample t-test
+## 
+## data:  x
+## t = -7.778, df = 24, p-value = 2.587e-08
+## alternative hypothesis: true mean is less than 0
+## 95 percent confidence interval:
+##        -Inf -0.1581322
+## sample estimates:
+##  mean of x 
+## -0.2027244
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+\textbf{Solution:} Since we expect dopamine levels to decrease when the responses are further, we want to use a left-tailed test. This givens us the results: 
+\begin{center}
+($t = -7.78$; $p = 2.59 * 10^{-8}$; $g = -1.51$; $95\%$ CI: -Inf, -0.158)
+\end{center}
   \item ``The difference between populations was significant ($p=1.04 \times10^{-8}$).''
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{# part C (differences)}
+\hldef{mu0} \hlkwb{<-} \hlnum{0}
+\hldef{x} \hlkwb{<-} \hldef{figG.data}\hlopt{$}\hldef{val_diffs}
+
+\hlcom{# hedge's g + CI}
+\hlkwd{hedges_g}\hldef{(}\hlkwc{x} \hldef{= x,} \hlkwc{mu} \hldef{= mu0,} \hlkwc{alternative} \hldef{=} \hlsng{"two.sided"}\hldef{)}
+\end{alltt}
+\begin{verbatim}
+## Hedges' g |       95% CI
+## ------------------------
+## 1.65      | [1.04, 2.24]
+\end{verbatim}
+\begin{alltt}
+\hlkwd{interpret_hedges_g}\hldef{(}\hlnum{1.65}\hldef{)}
+\end{alltt}
+\begin{verbatim}
+## [1] "large"
+## (Rules: cohen1988)
+\end{verbatim}
+\begin{alltt}
+\hlcom{# t.test}
+\hlkwd{t.test}\hldef{(}\hlkwc{x}\hldef{=x,} \hlkwc{mu} \hldef{= mu0,} \hlkwc{alternative} \hldef{=} \hlsng{"two.sided"}\hldef{)}
+\end{alltt}
+\begin{verbatim}
+## 
+## 	One Sample t-test
+## 
+## data:  x
+## t = 8.5109, df = 24, p-value = 1.037e-08
+## alternative hypothesis: true mean is not equal to 0
+## 95 percent confidence interval:
+##  0.2719028 0.4459921
+## sample estimates:
+## mean of x 
+## 0.3589475
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+\textbf{Solution:} Since we expect the difference to be significant between populations, we want to use a two-tailed test. This givens us the results: 
+\begin{center}
+($t = 8.51$; $p = 1.04 * 10^{-8}$; $g = 1.65$; $95\%$ CI: 0.272, 0.446)
+\end{center}
+
 \end{enumerate}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % CONDUCT THE TESTS
