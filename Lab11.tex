@@ -244,7 +244,15 @@ do to collect the data for Figure 2(g). Note that you only need the
   that there is a difference between dopamine in the brains of
   young zebra finches when they sing further away compared to 
   closer to their adult song?
-
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{# part C}
+\hldef{diffs.summary} \hlkwb{<-} \hldef{closer.summary} \hlopt{-} \hldef{further.summary}
+\hlkwd{xtable}\hldef{(diffs.summary)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
 \textbf{Solution:} Above is a code snippet used to generate a table of summary statistics (Table \ref{table4}) for the paired differences. Since the mean and median are both positive, this suggests that dopamine is changing in paired differences.
 \begin{table}[ht]
 \centering
@@ -313,11 +321,19 @@ correction of their $p$-values. I'm waiting to hear back from them via email!
 ## mean of x 
 ## 0.1562231
 \end{verbatim}
+\begin{alltt}
+\hlcom{# CI}
+\hldef{(CI.upper.closer} \hlkwb{<-} \hlkwd{t.test}\hldef{(}\hlkwc{x}\hldef{=x.closer,} \hlkwc{mu} \hldef{= mu0,}
+                         \hlkwc{alternative} \hldef{=} \hlsng{"two.sided"}\hldef{)}\hlopt{$}\hldef{conf.int[}\hlnum{2}\hldef{])}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.1950586
+\end{verbatim}
 \end{kframe}
 \end{knitrout}
 \textbf{Solution:} Since we expect dopamine levels to increase when the responses are closer, we want to use a right-tailed test. This givens us the results: 
 \begin{center}
-($t = 8.30$; $p = 8.13 * 10^{-9}$; $g = 1.61$; $95\%$ CI: 0.124, Inf)
+($t = 8.30$; $p = 8.13 * 10^{-9}$; $g = 1.61$; $95\%$ CI: 0.124, 0.195)
 \end{center}
 The functions used to accomplish these tasks (\verb|hedges_g(), t.test()|), came from the \texttt{effectsize} \citep{effectsize} package. 
 
@@ -363,11 +379,19 @@ The functions used to accomplish these tasks (\verb|hedges_g(), t.test()|), came
 ##  mean of x 
 ## -0.2027244
 \end{verbatim}
+\begin{alltt}
+\hlcom{# CI}
+\hldef{(CI.lower.further} \hlkwb{<-} \hlkwd{t.test}\hldef{(}\hlkwc{x}\hldef{=x.further,} \hlkwc{mu} \hldef{= mu0,}
+                         \hlkwc{alternative} \hldef{=} \hlsng{"two.sided"}\hldef{)}\hlopt{$}\hldef{conf.int[}\hlnum{1}\hldef{])}
+\end{alltt}
+\begin{verbatim}
+## [1] -0.2565176
+\end{verbatim}
 \end{kframe}
 \end{knitrout}
 \textbf{Solution:} Since we expect dopamine levels to decrease when the responses are further, we want to use a left-tailed test. This givens us the results: 
 \begin{center}
-($t = -7.78$; $p = 2.59 * 10^{-8}$; $g = -1.51$; $95\%$ CI: -Inf, -0.158)
+($t = -7.78$; $p = 2.59 * 10^{-8}$; $g = -1.51$; $95\%$ CI: -0.203, -0.158)
 \end{center}
   \item ``The difference between populations was significant ($p=1.04 \times10^{-8}$).''
 \begin{knitrout}
@@ -416,38 +440,213 @@ The functions used to accomplish these tasks (\verb|hedges_g(), t.test()|), came
 ($t = 8.51$; $p = 1.04 * 10^{-8}$; $g = 1.65$; $95\%$ CI: 0.272, 0.446)
 \end{center}
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=12cm, height=10cm]{sideboxplots.png}
+\caption{A side-by-side box plot summarizing the data in task 4.}
+\label{plot1}
+\end{figure}
+The side-by-side box plots (Figure \ref{plot1}) confirm our suggestions from earlier. In general, dopamine increases when the finches sing closer to their adult song and with paired differences, while dopamine decreases when they sing further away.
 \end{enumerate}
-\newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % CONDUCT THE TESTS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
 \item Reverse engineer the hypothesis test plot from Lecture 20 to create accurate
 hypothesis testing plots for each part of the previous question.
 \begin{enumerate}
   \item Question 4, part(a).
-\begin{figure}[H]
- \begin{center}
-\begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
-\includegraphics[width=\maxwidth]{figure/unnamed-chunk-10-1} 
-\end{knitrout}
-\caption{A figure showing the T-Test for Dopamine change in closer responses.}
- \end{center}
- \end{figure}  
- \newpage
+  \begin{figure}[H]
+\centering
+\includegraphics[width=10cm, height=8.5cm]{task5plot1.png}
+\caption{A figure showing the T-Test for Dopamine change in further responses.}
+\label{plot2}
+\end{figure}
+
   \item Question 4, part(b).
   \begin{figure}[H]
- \begin{center}
-\begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
-
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in `geom\_ribbon()`:\\\#\# ! Problem while converting geom to grob.\\\#\# i Error occurred in the 4th layer.\\\#\# Caused by error:\\\#\# ! Unknown colour name: reg}}\end{kframe}
-\end{knitrout}
+\centering
+\includegraphics[width=10cm, height=8.5cm]{task5plot2.png}
 \caption{A figure showing the T-Test for Dopamine change in further responses.}
- \end{center}
- \end{figure}  
-%   \item Question 4, part(c).
+\label{plot3}
+\end{figure}
+
+\newpage
+\item Question 4, part(c).
+   \begin{figure}[H]
+\centering
+\includegraphics[width=10cm, height=8.5cm]{task5plot3.png}
+\caption{A figure showing the T-Test for Dopamine change in between populations.}
+\label{plot4}
+\end{figure}
+
+\end{enumerate}
+\end{enumerate}
+
+\bibliography{bibliography}
+\end{document}
+% \begin{figure}[H]
+%  \begin{center}
+% <<echo = F, message=FALSE, warning=FALSE>>=
+% # closer data
+% s.closer <- sd(x.closer)
+% xbar.closer <- mean(x.closer)
+% t.stat.closer <- (xbar.closer - mu0)/(s.closer/sqrt(n))
+% 
+% # For plotting the observed point
+% ggdat.obs.closer <- tibble(t    = t.stat.closer, 
+%                     y    = 0) # to plot on x-axis
+% 
+% # Resampling to approximate the sampling distribution 
+% # on the data
+% R <- 1000
+% resamples <- tibble(t=numeric(R))
+% for(i in 1:R){
+%   curr.sample <- sample(x=x.closer,
+%                         size=n,
+%                         replace=T)
+%   resamples$t[i] = (mean(curr.sample)-mu0)/(sd(curr.sample)/sqrt(n))
+% }
+% 
+% t.breaks.closer <- c(-5, qt(0.025, df = n-1), # rejection region (left)
+%               0, 
+%               qt(0.975, df = n-1), 5,  # rejection region (right)
+%               t.stat.closer)                  # t-statistic observed
+% xbar.breaks.closer <- t.breaks.closer * s.closer/(sqrt(n)) + mu0
+% 
+% # Create Plot
+% ggplot() +
+%   # null distribution
+%   geom_line(data=ggdat.t, 
+%             aes(x=t, y=pdf.null))+
+%   geom_hline(yintercept=0)+
+%   # rejection regions
+%   # geom_ribbon(data=subset(ggdat.t, t<=qt(0.025, df=n-1)), 
+%   #             aes(x=t, ymin=0, ymax=pdf.null),
+%   #             fill="grey", alpha=0.5)+
+%   geom_ribbon(data=subset(ggdat.t, t>=qt(0.95, df=n-1)), 
+%               aes(x=t, ymin=0, ymax=pdf.null),
+%               fill="grey", alpha=0.5)+
+%   # plot p-value (not visible)
+%   geom_ribbon(data=subset(ggdat.t, t>=t.stat.closer), 
+%               aes(x=t, ymin=0, ymax=pdf.null),
+%               fill="reg", alpha=0.25)+
+%   # plot observation point
+%   geom_point(data=ggdat.obs.closer, aes(x=t, y=y), color="red")+
+%   # Resampling Distribution
+%   stat_density(data=resamples, 
+%                aes(x=t),
+%                geom="line", color="grey")+
+%   # clean up aesthetics
+%   theme_bw()+
+%   scale_x_continuous("t",
+%                      breaks = round(t.breaks.closer,2),
+%                      sec.axis = sec_axis(~.,
+%                                          name = bquote(bar(x)),
+%                                          breaks = t.breaks.closer,
+%                                          labels = round(xbar.breaks.closer,2)))+
+%   ylab("Density")+
+%   ggtitle("T-Test for Dopamine Change in a Closer Response",
+%           subtitle=bquote(H[0]==0*";"~H[a] > 0))
+% @
+% \caption{A figure showing the T-Test for Dopamine change in closer responses.}
+%  \end{center}
+%  \end{figure}  
+%   \begin{figure}[H]
+%  \begin{center}
+% <<echo = F, message=FALSE, warning=FALSE>>=
+% s.further <- sd(x.further)
+% xbar.further <- mean(x.further)
+% t.stat.further <- (xbar.further - mu0)/(s.further/sqrt(n))
+% 
+% # For plotting the observed point
+% ggdat.obs.further <- tibble(t    = t.stat.further, 
+%                            y    = 0) # to plot on x-axis
+% 
+% # Resampling to approximate the sampling distribution 
+% # on the data
+% R <- 1000
+% resamples <- tibble(t=numeric(R))
+% for(i in 1:R){
+%   curr.sample <- sample(x=x.further,
+%                         size=n,
+%                         replace=T)
+%   resamples$t[i] = (mean(curr.sample)-mu0)/(sd(curr.sample)/sqrt(n))
+% }
+% 
+% t.breaks.further <- c(-5, qt(0.025, df = n-1), # rejection region (left)
+%                      0, 
+%                      qt(0.975, df = n-1), 5,  # rejection region (right)
+%                      t.stat.further)                  # t-statistic observed
+% xbar.breaks.further <- t.breaks.further * s.further/(sqrt(n)) + mu0
+% 
+% # Create Plot
+% ggplot() +
+%   # null distribution
+%   geom_line(data=ggdat.t, 
+%             aes(x=t, y=pdf.null))+
+%   geom_hline(yintercept=0)+
+%   # rejection regions
+%   geom_ribbon(data=subset(ggdat.t, t<=qt(0.05, df=n-1)), 
+%               aes(x=t, ymin=0, ymax=pdf.null),
+%               fill="grey", alpha=0.5)+
+%   # geom_ribbon(data=subset(ggdat.t, t>=qt(0.95, df=n-1)), 
+%   #             aes(x=t, ymin=0, ymax=pdf.null),
+%   #             fill="grey", alpha=0.5)+
+%   # plot p-value (not visible)
+%   geom_ribbon(data=subset(ggdat.t, t>=t.stat.further), 
+%               aes(x=t, ymin=0, ymax=pdf.null),
+%               fill="reg", alpha=0.25)+
+%   # plot observation point
+%   geom_point(data=ggdat.obs.further, aes(x=t, y=y), color="red")+
+%   # Resampling Distribution
+%   stat_density(data=resamples, 
+%                aes(x=t),
+%                geom="line", color="grey")+
+%   # clean up aesthetics
+%   theme_bw()+
+%   scale_x_continuous("t",
+%                      breaks = round(t.breaks.further,2),
+%                      sec.axis = sec_axis(~.,
+%                                          name = bquote(bar(x)),
+%                                          breaks = t.breaks.further,
+%                                          labels = round(xbar.breaks.further,2)))+
+%   ylab("Density")+
+%   ggtitle("T-Test for Dopamine Change in a Further Response",
+%           subtitle=bquote(H[0]==0*";"~H[a] < 0))
+% 
+% 
+% # diff data
+% s.diff <- sd(x.diff)
+% xbar.diff <- mean(x.diff)
+% t.stat.diff <- (xbar.diff - mu0)/(s.diff/sqrt(n))
+% 
+% # For plotting the observed point
+% ggdat.obs.diff <- tibble(t    = t.stat.diff, 
+%                             y    = 0) # to plot on x-axis
+% 
+% # Resampling to approximate the sampling distribution 
+% # on the data
+% R <- 1000
+% resamples <- tibble(t=numeric(R))
+% for(i in 1:R){
+%   curr.sample <- sample(x=x.diff,
+%                         size=n,
+%                         replace=T)
+%   resamples$t[i] = (mean(curr.sample)-mu0)/(sd(curr.sample)/sqrt(n))
+% }
+% 
+% t.breaks.diff <- c(-5, qt(0.025, df = n-1), # rejection region (left)
+%                       0, 
+%                       qt(0.975, df = n-1), 5,  # rejection region (right)
+%                       t.stat.diff)                  # t-statistic observed
+% xbar.breaks.diff <- t.breaks.diff * s.diff/(sqrt(n)) + mu0
+% 
+% @
+% \caption{A figure showing the T-Test for Dopamine change in further responses.}
+%  \end{center}
+%  \end{figure}  
+
 %   \begin{figure}[H]
 %  \begin{center}
 % <<echo = F, message=FALSE, warning=FALSE, fig.dim = c(6,5)>>=
@@ -516,9 +715,3 @@ hypothesis testing plots for each part of the previous question.
 % \caption{A figure showing the T-Test for Dopamine change in between populations.}
 %  \end{center}
 %  \end{figure} 
-\end{enumerate}
-\end{enumerate}
-
-
-\bibliography{bibliography}
-\end{document}

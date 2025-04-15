@@ -63,7 +63,10 @@ ggplot(figG.data)+
   geom_boxplot(aes(x="Closer", y=closer_vals))+
   geom_boxplot(aes(x="Further", y=further_vals))+
   geom_boxplot(aes(x="Difference", y=val_diffs))+
-  ylab("delta F/F (%)")
+  ylab("delta F/F (%)")+
+  xlab("Groups")+
+  geom_hline(yintercept = 0, color = "black")+
+  ggtitle("Changes in Dopamine in Young Zebra Finches, by group")
 
 ################################################################################
 # Task 4
@@ -80,6 +83,10 @@ interpret_hedges_g(1.61)
 # t.test
 t.test(x=x.closer, mu = mu0, alternative = "greater")
 
+# CI
+(CI.upper.closer <- t.test(x=x.closer, mu = mu0, 
+                           alternative = "two.sided")$conf.int[2])
+
 
 # part B (further)
 mu0 <- 0
@@ -91,6 +98,11 @@ interpret_hedges_g(-1.51)
 
 # t.test
 t.test(x=x.further, mu = mu0, alternative = "less")
+
+# CI
+(CI.lower.further <- t.test(x=x.further, mu = mu0, 
+                           alternative = "two.sided")$conf.int[1])
+
 
 # part C (differences)
 mu0 <- 0
@@ -167,7 +179,7 @@ t5a <- ggplot() +
                                          breaks = t.breaks.closer,
                                          labels = round(xbar.breaks.closer,2)))+
   ylab("Density")+
-  ggtitle("T-Test for Dopamine Change in a Closer Response for Young Zebra Finches",
+  ggtitle("T-Test for Dopamine Change in a Closer Response",
           subtitle=bquote(H[0]==0*";"~H[a] > 0))
 
 
@@ -229,7 +241,7 @@ t5b <- ggplot() +
                                          breaks = t.breaks.further,
                                          labels = round(xbar.breaks.further,2)))+
   ylab("Density")+
-  ggtitle("T-Test for Dopamine Change in a Further Response for Young Zebra Finches",
+  ggtitle("T-Test for Dopamine Change in a Further Response",
           subtitle=bquote(H[0]==0*";"~H[a] < 0))
 
 
@@ -291,7 +303,7 @@ t5c <- ggplot() +
                                          breaks = t.breaks.diff,
                                          labels = round(xbar.breaks.diff,2)))+
   ylab("Density")+
-  ggtitle("T-Test for Dopamine Change Between Populations (Close and Far Responses)",
+  ggtitle("T-Test for Dopamine Change Between Populations",
           subtitle=bquote(H[0]==0*";"~H[a] != 0))
 
 # check
