@@ -199,6 +199,13 @@ xtable(diffs.summary)
   Note that the you can use \texttt{geom\_errorbar()} to plot
   the range created by adding the mean $\pm$ one standard deviation.
 \end{enumerate}
+\begin{figure}[H]
+\centering
+\includegraphics[width=12cm, height=10cm]{sideboxplots.png}
+\caption{A side-by-side box plot summarizing the data in task 4.}
+\label{plot1}
+\end{figure}
+The side-by-side box plots (Figure \ref{plot1}) confirm our suggestions from earlier. In general, dopamine increases when the finches sing closer to their adult song and with paired differences, while dopamine decreases when they sing further away.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % CONDUCT THE TESTS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -269,14 +276,6 @@ t.test(x=x.diff, mu = mu0, alternative = "two.sided")
 \begin{center}
 ($t = 8.51$; $p = 1.04 * 10^{-8}$; $g = 1.65$; $95\%$ CI: 0.272, 0.446)
 \end{center}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=12cm, height=10cm]{sideboxplots.png}
-\caption{A side-by-side box plot summarizing the data in task 4.}
-\label{plot1}
-\end{figure}
-The side-by-side box plots (Figure \ref{plot1}) confirm our suggestions from earlier. In general, dopamine increases when the finches sing closer to their adult song and with paired differences, while dopamine decreases when they sing further away.
 \end{enumerate}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % CONDUCT THE TESTS
