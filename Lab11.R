@@ -149,7 +149,7 @@ t5a <- ggplot() +
               aes(x=t, ymin=0, ymax=pdf.null),
               fill="grey", alpha=0.5)+
   # plot p-value (not visible)
-  geom_ribbon(data=subset(ggdat.t, t>=t.stat), 
+  geom_ribbon(data=subset(ggdat.t, t>=t.stat.closer), 
               aes(x=t, ymin=0, ymax=pdf.null),
               fill="reg", alpha=0.25)+
   # plot observation point
@@ -211,7 +211,7 @@ t5b <- ggplot() +
   #             aes(x=t, ymin=0, ymax=pdf.null),
   #             fill="grey", alpha=0.5)+
   # plot p-value (not visible)
-  geom_ribbon(data=subset(ggdat.t, t>=t.stat), 
+  geom_ribbon(data=subset(ggdat.t, t>=t.stat.further), 
               aes(x=t, ymin=0, ymax=pdf.null),
               fill="reg", alpha=0.25)+
   # plot observation point
@@ -273,7 +273,7 @@ t5c <- ggplot() +
                aes(x=t, ymin=0, ymax=pdf.null),
                fill="grey", alpha=0.5)+
   # plot p-value (not visible)
-  geom_ribbon(data=subset(ggdat.t, t>=t.stat), 
+  geom_ribbon(data=subset(ggdat.t, t>=t.stat.diff), 
               aes(x=t, ymin=0, ymax=pdf.null),
               fill="reg", alpha=0.25)+
   # plot observation point
@@ -294,5 +294,8 @@ t5c <- ggplot() +
   ggtitle("T-Test for Dopamine Change Between Populations (Close and Far Responses)",
           subtitle=bquote(H[0]==0*";"~H[a] != 0))
 
-library(patchwork)
-t5a + t5b + t5c
+# check
+t5a
+t5b
+t5c
+
